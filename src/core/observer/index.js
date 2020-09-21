@@ -42,16 +42,23 @@ export class Observer {
   constructor (value: any) {
     this.value = value
     this.dep = new Dep()
+    // 将实例挂载的vmCount 为 0
     this.vmCount = 0
+    // 将实例挂载到观察的对象的_ob_属性
     def(value, '__ob__', this)
+    // 数组的响应试处理
     if (Array.isArray(value)) {
       if (hasProto) {
+        // 如果是数组的话就劫持数组的原型的方法
+        // 修改会改变数组的方法监听听他们的改变，通知更新
         protoAugment(value, arrayMethods)
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
+      // 为数组的每个对象创建一个observer 实例
       this.observeArray(value)
     } else {
+      // 遍历对象中的每一个属性，转换成setter/getter
       this.walk(value)
     }
   }
@@ -72,6 +79,7 @@ export class Observer {
    * Observe a list of Array items.
    */
   observeArray (items: Array<any>) {
+    // 循环数组如果数组是对象的话，监听数组的属性。
     for (let i = 0, l = items.length; i < l; i++) {
       observe(items[i])
     }

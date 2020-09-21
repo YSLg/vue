@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    Hello World
+  </div>
+  <script src="../../dist/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      render(h) {
+        return h('h1', this.msg)
+      },
+      data: {
+        msg: 'hello Vue'
+      },
+      methods: {
+        updateMsg() {
+          this.msg = '更新完成'
+          console.log('aaa', this.$el.textContent) // 没有更新之前
+          this.$nextTick(() => {
+            // dom更新后执行。
+            // 好处当前this会绑定到当前组件上。
+            // 我们可以获取更新完成的dom.
+            console.log('bb', this.$el.textContent) // 更新完成
+          })
+          new Promise((resolve) => {
+            resolve()
+          }).then(() => {
+            console.log('cc', this.$el.textContent) // 更新完成
+
+          })
+          console.log('aaa', this.$el.textContent) // 没有更新之前
+        }
+      },
+      mounted() {
+        this.updateMsg()
+      }
+    })
+  </script>
+</body>
+</html>

@@ -20,8 +20,7 @@ Vue.prototype.$mount = function (
   hydrating?: boolean
 ): Component {
   el = el && query(el)
-
-  /* istanbul ignore if */
+   // el 不能是body 和 html标签
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -30,7 +29,7 @@ Vue.prototype.$mount = function (
   }
 
   const options = this.$options
-  // resolve template/el and convert to render function
+  // 如果没有render的时候。会执行template模版。
   if (!options.render) {
     let template = options.template
     if (template) {

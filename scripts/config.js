@@ -119,11 +119,12 @@ const builds = {
     env: 'production',
     banner
   },
+  // 基础版本
   // Runtime+compiler development build (Browser)
   'web-full-dev': {
     entry: resolve('web/entry-runtime-with-compiler.js'),
     dest: resolve('dist/vue.js'),
-    format: 'umd',
+    format: 'umd', // 完整版本
     env: 'development',
     alias: { he: './entity-decoder' },
     banner
@@ -212,8 +213,9 @@ const builds = {
     external: Object.keys(require('../packages/weex-template-compiler/package.json').dependencies)
   }
 }
-
+// 生成配置对象
 function genConfig (name) {
+  // 打包文件的基础信息
   const opts = builds[name]
   const config = {
     input: opts.entry,
